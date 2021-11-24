@@ -22,7 +22,14 @@ const main = async () => {
 
                 // Select place
                 const selectedId = await listCities(places);
+
+                // To avoid a error with the following sentences and pass to next iteration
+                if ( selectedId === 0 ) continue;
+
                 const selectedPlace = places.find(l => l.id === selectedId);
+
+                // Save in DB
+                searches.addHistory(selectedPlace.name)
 
                 // Place info -> name, longitude and latitude
                 const {name: placeName, lng, lat} = selectedPlace;
@@ -40,6 +47,13 @@ const main = async () => {
                 console.log('Min:', min);
                 console.log('Max:', max);
                 console.log('How is it?: ', desc.green);
+                break;
+
+            case 2:
+                searches.capitalizedHistory.forEach( (place, i) => {
+                    const idx = `${ i + 1 }.`.green;
+                    console.log(`${ idx } ${ place }`);
+                })
                 break;
         }
 
